@@ -1,0 +1,5 @@
+# Ignorar solo archivos específicos llamados 'factory-method'
+**/factory-method
+
+# Excluir cualquier directorio llamado 'factory-method' del ignore
+!**/factory-method/
