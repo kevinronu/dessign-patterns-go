@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/kevinronu/design-patterns-go/factory-method/factory"
-	"github.com/kevinronu/design-patterns-go/factory-method/gun"
+	"github.com/kevinronu/design-patterns-go/creational-design-patterns/factory-method/factory"
+	"github.com/kevinronu/design-patterns-go/creational-design-patterns/factory-method/gun"
 )
 
 func main() {

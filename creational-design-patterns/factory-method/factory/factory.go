@@ -3,7 +3,7 @@ package factory
 import (
 	"fmt"
 
-	"github.com/kevinronu/design-patterns-go/factory-method/gun"
+	"github.com/kevinronu/design-patterns-go/creational-design-patterns/factory-method/gun"
 )
 
 // Factory is the base interface for creating guns.
