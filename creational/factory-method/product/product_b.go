@@ -7,18 +7,18 @@ const (
 	TypeB ProductType = "B"
 )
 
-// ProductB is one concrete product implementation.
+// ProductB is a concrete product.
 type ProductB struct {
 	Owner string
 	Type  ProductType
 }
 
-// GetType returns the product type for ProductB.
+// GetType returns the product type.
 func (p ProductB) GetType() ProductType {
 	return TypeB
 }
 
-// DoSomething executes ProductB behavior.
+// DoSomething runs the product's behavior.
 func (p ProductB) DoSomething() string {
 	return fmt.Sprintf("Product of type %s owned by %s is doing something", p.Type, p.Owner)
 }

@@ -1,9 +1,9 @@
 package product
 
-// ProductType represents the type identifier for each concrete product.
+// ProductType identifies a concrete product.
 type ProductType string
 
-// Product defines the common behavior for all product variants.
+// Product is the common contract for every concrete product.
 type Product interface {
 	GetType() ProductType
 	DoSomething() string

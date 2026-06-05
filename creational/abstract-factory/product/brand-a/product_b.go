@@ -6,15 +6,15 @@ import (
 	"github.com/kevinronu/dessign-patterns-go/creational/abstract-factory/product"
 )
 
-// ProductB is the BrandA implementation of product.ProductB.
+// ProductB is the BrandA implementation of ProductB.
 type ProductB struct{}
 
-// GetBrand returns the brand for ProductB.
+// GetBrand returns the product's brand.
 func (p ProductB) GetBrand() product.BrandType {
 	return BrandA
 }
 
-// DoB executes ProductB behavior for BrandA.
+// DoB runs the product's behavior.
 func (p ProductB) DoB() string {
 	return fmt.Sprintf("Product B of brand %s is doing B", BrandA)
 }

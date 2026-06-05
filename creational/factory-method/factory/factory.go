@@ -6,19 +6,19 @@ import (
 	"github.com/kevinronu/dessign-patterns-go/creational/factory-method/product"
 )
 
-// Factory defines the behavior required to create a product.
+// Factory creates a product.
 type Factory interface {
 	CreateProduct(owner string) product.Product
 }
 
-// OneTimeAction creates a temporary product and executes its main behavior.
+// OneTimeAction creates a temporary product and runs its behavior.
 func OneTimeAction(factory Factory, temporaryOwner string) string {
 	product := factory.CreateProduct(temporaryOwner)
 
 	return product.DoSomething()
 }
 
-// GetFactory returns a factory implementation for the requested product type.
+// GetFactory returns the factory for the given product type.
 func GetFactory(productType product.ProductType) (Factory, error) {
 	switch productType {
 	case product.TypeA:

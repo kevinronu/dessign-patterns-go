@@ -8,7 +8,7 @@ import (
 	"github.com/kevinronu/dessign-patterns-go/creational/factory-method/product"
 )
 
-// printDetails prints the type and behavior of a product.
+// printDetails prints a product's type and behavior.
 func printDetails(p product.Product) {
 	fmt.Printf("Type: %s\n", p.GetType())
 	fmt.Printf("Action: %s\n", p.DoSomething())

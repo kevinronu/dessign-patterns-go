@@ -8,13 +8,13 @@ import (
 	brandb "github.com/kevinronu/dessign-patterns-go/creational/abstract-factory/product/brand-b"
 )
 
-// Factory defines the behavior required to create a related brand of products.
+// Factory creates a full brand of related products.
 type Factory interface {
 	CreateProductA() product.ProductA
 	CreateProductB() product.ProductB
 }
 
-// OneTimeAction creates a full brand of products and executes their behavior.
+// OneTimeAction creates a full brand of products and runs their behavior.
 func OneTimeAction(factory Factory) string {
 	productA := factory.CreateProductA()
 	productB := factory.CreateProductB()
@@ -22,7 +22,7 @@ func OneTimeAction(factory Factory) string {
 	return fmt.Sprintf("%s. %s", productA.DoA(), productB.DoB())
 }
 
-// GetFactory returns a factory implementation for the requested brand type.
+// GetFactory returns the factory for the given brand.
 func GetFactory(brand product.BrandType) (Factory, error) {
 	switch brand {
 	case branda.BrandA:

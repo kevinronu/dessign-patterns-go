@@ -10,13 +10,13 @@ import (
 	brandb "github.com/kevinronu/dessign-patterns-go/creational/abstract-factory/product/brand-b"
 )
 
-// printProductADetails prints the brand and behavior of a ProductA.
+// printProductADetails prints a ProductA's brand and behavior.
 func printProductADetails(p product.ProductA) {
 	fmt.Printf("Brand: %s\n", p.GetBrand())
 	fmt.Printf("Action: %s\n", p.DoA())
 }
 
-// printProductBDetails prints the brand and behavior of a ProductB.
+// printProductBDetails prints a ProductB's brand and behavior.
 func printProductBDetails(p product.ProductB) {
 	fmt.Printf("Brand: %s\n", p.GetBrand())
 	fmt.Printf("Action: %s\n", p.DoB())
