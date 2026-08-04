@@ -22,14 +22,14 @@ func main() {
 		Summary: "all good",
 	}
 
-	// Render the same documents with each exporter — swap the implementation, reuse the data.
+	// Two documents and two formats give four outputs from four small types. Without the split,
+	// every pair would need a type of its own.
 	for _, exporter := range []implementation.Exporter{implementation.HTML{}, implementation.CSV{}} {
+		// The Exporter is a field, so an implementation can be swapped after the document is built.
 		invoice.Exporter = exporter
 		report.Exporter = exporter
 
-		fmt.Print(invoice.Export())
-		fmt.Println()
-		fmt.Print(report.Export())
-		fmt.Println()
+		fmt.Printf("--- invoice as %T ---\n%s\n", exporter, invoice.Export())
+		fmt.Printf("--- report as %T ---\n%s\n", exporter, report.Export())
 	}
 }

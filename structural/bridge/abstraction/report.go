@@ -1,6 +1,6 @@
 package abstraction
 
-// Report is another refined abstraction: different content, composed with the same primitives, in any format.
+// Report shows what the split buys: a second document type needs no change to any Exporter.
 type Report struct {
 	Document
 	Title   string

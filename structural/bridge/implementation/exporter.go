@@ -1,9 +1,9 @@
-// Package implementation is the bridge's low-level side: the dependency the abstraction
-// builds on. Each concrete type provides the formatting primitives for one format.
+// Package implementation is the low-level side of the bridge. Each type here knows one output
+// format and nothing about documents.
 package implementation
 
-// Exporter is the implementation interface: the primitives the abstraction composes a
-// document from. Each format renders them its own way.
+// Exporter is the implementation interface: the smallest set of calls a document needs. Keeping it
+// small is what makes a new format two short methods.
 type Exporter interface {
 	Heading(text string) string
 	Field(label, value string) string
