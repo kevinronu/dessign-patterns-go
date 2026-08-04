@@ -35,13 +35,11 @@ func main() {
 		log.Fatalf("new encryption: %v", err)
 	}
 
-	type stack struct {
+	// The decorator on the outside changes the data first on write, and last on read.
+	stacks := []struct {
 		label  string
 		source component.DataSource
-	}
-
-	// The decorator on the outside changes the data first on write, and last on read.
-	stacks := []stack{
+	}{
 		{"none", store},
 		{"compression", decorator.NewCompression(store, level)},
 		{"compression + encryption", decorator.NewCompression(encrypted, level)},
