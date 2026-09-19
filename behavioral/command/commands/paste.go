@@ -1,17 +1,14 @@
 package commands
 
-import (
-	"github.com/kevinronu/dessign-patterns-go/behavioral/command/editor"
-)
+import "github.com/kevinronu/dessign-patterns-go/behavioral/command/editor"
 
 // Paste inserts the editor clipboard at its caret and keeps its prior text for Undo.
 type Paste struct {
-	editor *editor.Editor
-	backup string
+	commandState
 }
 
 func NewPaste(editor *editor.Editor) *Paste {
-	return &Paste{editor: editor}
+	return &Paste{commandState: commandState{editor: editor}}
 }
 
 func (p *Paste) Execute() bool {
@@ -19,7 +16,7 @@ func (p *Paste) Execute() bool {
 		return false
 	}
 
-	p.backup = p.editor.Text
+	p.backup()
 	p.editor.Text = p.editor.Text[:p.editor.CaretPosition] + p.editor.Clipboard + p.editor.Text[p.editor.CaretPosition:]
 
 	newCaretPosition := p.editor.CaretPosition + len(p.editor.Clipboard)
@@ -28,8 +25,4 @@ func (p *Paste) Execute() bool {
 	p.editor.SelectionEnd = newCaretPosition
 
 	return true
-}
-
-func (p *Paste) Undo() {
-	p.editor.Text = p.backup
 }

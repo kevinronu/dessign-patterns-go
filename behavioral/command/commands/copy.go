@@ -7,11 +7,11 @@ import (
 
 // Copy copies the editor selection to its clipboard.
 type Copy struct {
-	editor *editor.Editor
+	commandState
 }
 
 func NewCopy(editor *editor.Editor) *Copy {
-	return &Copy{editor: editor}
+	return &Copy{commandState: commandState{editor: editor}}
 }
 
 func (c *Copy) Execute() bool {
@@ -22,7 +22,4 @@ func (c *Copy) Execute() bool {
 	c.editor.Clipboard = c.editor.Text[c.editor.SelectionStart:c.editor.SelectionEnd]
 
 	return false
-}
-
-func (c *Copy) Undo() {
 }

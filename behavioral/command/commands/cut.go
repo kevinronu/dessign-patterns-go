@@ -1,17 +1,14 @@
 package commands
 
-import (
-	"github.com/kevinronu/dessign-patterns-go/behavioral/command/editor"
-)
+import "github.com/kevinronu/dessign-patterns-go/behavioral/command/editor"
 
 // Cut removes the editor selection and keeps its prior text for Undo.
 type Cut struct {
-	editor *editor.Editor
-	backup string
+	commandState
 }
 
 func NewCut(editor *editor.Editor) *Cut {
-	return &Cut{editor: editor}
+	return &Cut{commandState: commandState{editor: editor}}
 }
 
 func (c *Cut) Execute() bool {
@@ -19,15 +16,11 @@ func (c *Cut) Execute() bool {
 		return false
 	}
 
-	c.backup = c.editor.Text
+	c.backup()
 	c.editor.Clipboard = c.editor.Text[c.editor.SelectionStart:c.editor.SelectionEnd]
 	c.editor.Text = c.editor.Text[:c.editor.SelectionStart] + c.editor.Text[c.editor.SelectionEnd:]
 	c.editor.SelectionEnd = c.editor.SelectionStart
 	c.editor.CaretPosition = c.editor.SelectionStart
 
 	return true
-}
-
-func (c *Cut) Undo() {
-	c.editor.Text = c.backup
 }
