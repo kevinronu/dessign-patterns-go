@@ -8,6 +8,7 @@ import (
 	"github.com/kevinronu/dessign-patterns-go/behavioral/iterator/item"
 )
 
+// SocialSpammer sends a message to every profile in a sequence.
 type SocialSpammer struct {
 	network aggregate.SocialNetwork
 }
