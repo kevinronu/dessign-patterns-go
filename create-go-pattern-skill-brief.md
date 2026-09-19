@@ -4,271 +4,193 @@ title: Create Go Pattern Skill Brief
 
 # Create Go Pattern Skill Brief
 
-Use this document as the full prompt base for an LLM that starts with zero context.
+Use this brief to create a Go design-pattern skill from a working pattern in
+this repository. The output is a reusable skill in
+`/Users/kevinronu/.agents/skills`, not a repository-specific implementation
+guide.
 
-## Goal
+## Inputs
 
-Create a new Go design-pattern skill by using:
-
-- a guideline file that defines how these skills should behave
-- the pattern implementation that already exists in this repository
-
-The result should be a new skill draft similar in spirit to the existing Go pattern skills, especially:
-
-- lightweight
-- file-by-file
-- general enough to reuse outside this repo
-- explicit enough to preserve the important non-obvious Go adaptations
-
-## How To Use This Brief
-
-Give this brief to the LLM together with these concrete inputs:
+Provide these concrete inputs:
 
 - `Guideline file`: `<path-to-guideline-file>`
-- `Reference skills`: `<path-to-existing-go-pattern-skill-1>`, `<path-to-existing-go-pattern-skill-2>`
 - `Repository root`: `<path-to-this-repo>`
 - `Pattern family`: `<creational|structural|behavioral>`
 - `Pattern name`: `<pattern-name>`
 - `Reference implementation path`: `<path-to-pattern-implementation-in-this-repo>`
 - `Output draft path`: `<path-where-the-new-draft-should-be-created>`
 
-## Instructions For The LLM
+Provide one or two reference pattern skills only when their structure clarifies
+the target. They are examples, not a requirement to duplicate their wording or
+load every available skill.
 
-Read the guideline file first. Then read the existing reference skills to match their level of abstraction, tone, and structure. After that, inspect the target pattern implementation in the repository.
+## Goal and Boundaries
 
-Create the new skill draft from what is actually present in the repository implementation. Do not invent structure that the implementation does not support unless a tiny generalization is necessary to make the skill reusable.
+Create a lightweight, file-by-file Go pattern skeleton that:
 
-## What The New Skill Must Be
+- is primarily loaded by `go` after `design-pattern-decision` selects it;
+- is also useful for a direct request to implement, scaffold, or inspect that
+  pattern in Go;
+- captures the important non-obvious Go adaptation present in the reference
+  implementation;
+- generalizes the structural lesson without carrying over demo business names.
 
-The new skill must be a Go pattern skeleton.
+Do not turn the skill into a router, decision tree, validation or testing
+guide, repository manual, or duplicate of `go` or `design-pattern-decision`.
+Those skills retain orchestration, validation, and pattern-classification
+responsibility.
 
-It must:
+## Read and Extract
 
-- provide a reusable pattern skeleton, not a full implementation workflow
-- serve primarily as something the `go` skill can load after `design-pattern-decision` selects the pattern
-- still remain usable when a user explicitly asks for that Go pattern
-- avoid taking orchestration responsibility away from the `go` skill
-- avoid taking classification responsibility away from `design-pattern-decision`
+Read the guideline file and the target implementation before drafting. Read a
+reference skill only when it helps resolve a genuine structural question.
 
-## What The New Skill Must Not Do
+Extract the decisions that affect how the pattern is expressed in Go:
 
-Do not make the new skill:
+- package layout and file naming when they make roles or dependency direction
+  clear;
+- shared types and contracts placed together to prevent duplication or import
+  cycles;
+- selectors, factory lookup points, and interface boundaries;
+- embedding or composition that carries shared state or behavior;
+- a helper that substitutes for behavior inherited from an abstract base class;
+- zero-value concrete types that need no construction or dependency wiring;
+- import aliases that materially improve clarity;
+- pointer versus value use when it is inherent to the pattern; and
+- constraints that keep concrete variants interchangeable.
 
-- a router
-- a decision tree
-- a validation guide
-- a testing guide
-- a repo-specific implementation manual
-- a duplicate of the `go` skill
+Preserve a small but important implementation trick even when it needs a tiny
+generalization. Simplify incidental demo detail, such as formatting needed only
+for printed output. Do not invent structure unsupported by the implementation.
 
-Do not repeat generic Go rules that belong in the `go` skill, such as:
+## Create the Skill
 
-- testing conventions
-- formatting steps
-- linting steps
-- validation scope
-- broad architecture rules
-- generic error-handling rules
+Create `go-pattern-<pattern-name>/SKILL.md`. Add
+`references/skeleton.md` when the folder shape and file-by-file skeleton would
+make the entrypoint harder to scan; otherwise keep a small self-contained
+skill. Do not add resource folders, scripts, templates, or examples without a
+recurring concrete use.
 
-Only keep pattern-specific guidance and the few non-obvious Go adaptations that are easy to lose.
+### Frontmatter description
 
-## Required Output Shape
+Use the final skill name in lowercase hyphen-case. Write a short,
+discriminating description that says what the skill provides and when it
+applies: the matching classifier result and direct requests to implement,
+scaffold, or inspect the named Go pattern. Avoid broad adjacent topics or an
+exhaustive feature list because descriptions are loaded for every available
+skill.
 
-The new skill draft should follow this structure unless the guideline file requires a small adjustment:
+### SKILL.md body
 
-1. YAML frontmatter
-2. Title
-3. Purpose
-4. Non-Obvious Go Notes
-5. Folder Shape
-6. File-By-File Skeleton
+Keep the entrypoint focused on the pattern skeleton. It should contain:
 
-Keep it compact.
+1. a clear title and short purpose;
+2. `Non-Obvious Go Notes` with only the decisions a textbook description would
+   not reveal; and
+3. a contextual link to the folder shape and skeleton when that reference
+   exists.
 
-## Frontmatter Rules
+The usual output shape is therefore YAML frontmatter, title, purpose,
+non-obvious Go notes, and a skeleton reference. It is not a reason to force a
+fixed section or extra file when the pattern is genuinely simpler.
 
-The frontmatter must:
+Do not repeat generic Go testing, formatting, linting, validation-scope,
+architecture, or error-handling rules. The `go` skill owns them.
 
-- use the final skill name in lowercase hyphen-case
-- describe the skill as a lightweight Go pattern skeleton
-- say that it is used primarily after the active `go` skill receives the matching classification from `design-pattern-decision`
-- also allow explicit direct use when the user asks to implement, scaffold, or inspect that pattern in Go
-- mention that the skill contains only the folder shape, file-by-file code skeleton, and the few non-obvious Go adaptations worth preserving
+### Folder shape and file-by-file skeleton
 
-## Content Rules
+Use the reference to show the relevant folder shape and a concise code block
+for each significant file. Use readable placeholders such as `<module>`,
+`<pattern-root>`, `<family>`, `<type>`, `<productName>`, `factory`, `creator`,
+`component`, or `adapter` when they improve reuse. Do not use placeholders that
+only restate language facts.
 
-The body must:
+Keep names meaningful and use short local variables when they make pattern
+roles clearer than a deeply nested call. Show one representative template for
+repeated files, then state the corresponding substitutions rather than copying
+the same skeleton many times.
 
-- stay focused on skeleton and structure
-- use placeholders like `<module>`, `<pattern-root>`, `<family>`, `<type>`, `<productName>`, or equivalent when that improves reuse
-- keep placeholder names readable for another LLM
-- avoid weird placeholder names that repeat language facts, such as suffixes that restate that something is already a struct
-- prefer the lightest illustrative code that still preserves the pattern structure
-- avoid carrying over non-essential demo detail from the repository when a simpler skeleton communicates the same pattern role
-- preserve comments only when they explain something non-obvious
-- keep the most important structural lessons inside `Non-Obvious Go Notes` and the code comments themselves, not only in a trailing explanatory section
-- remove comments that merely narrate obvious code
+Keep the skeleton lightweight: preserve the pattern structure, interfaces,
+ownership, and important Go adaptation, but remove business-specific language
+and non-essential demo mechanics. Do not generalize until the useful lesson
+disappears.
 
-## Repository Extraction Rules
+## Non-Obvious Go Notes
 
-While reading the repository implementation, explicitly look for:
+This section records only insights another LLM could miss from the textbook
+pattern, for example:
 
-- package layout choices
-- file naming conventions
-- shared types placed in common packages to avoid duplication
-- selectors or factory lookup points
-- interface boundaries
-- any helper that substitutes for abstract base class behavior from other languages
-- zero-value structs used as concrete factories, implementers, or holders when no state is needed
-- import alias patterns that improve clarity
-- any non-obvious adaptation made because Go lacks inheritance or abstract classes
+- place shared identifiers beside the common contract to avoid circular
+  dependencies;
+- use a helper for behavior that would live in an abstract base class;
+- return a stateless zero-value concrete type by value;
+- return an interface from a selector rather than a concrete type;
+- separate a client-owned port from adapters;
+- embed or compose a shared bridge side instead of simulating inheritance;
+- construct a dependent optional part in a recipe or caller; or
+- keep the shared type and common contract in one package.
 
-If the repository uses a small but important trick, preserve that idea in the skeleton even if the final skill stays general.
+Do not add textbook definitions or notes that merely restate skeleton code.
 
-If a repository detail is only incidental demo code, simplify it in the skeleton. For example, prefer a direct illustrative return value over extra formatting imports unless the formatting itself teaches something important about the pattern.
+## Comments
 
-## Generalization Rules
+Default to no comment. Keep a comment only when it explains a pattern role,
+ownership decision, caller consequence, or non-obvious Go adaptation that code
+cannot express. Prefer the important explanation beside the relevant skeleton
+over a trailing adaptation section.
 
-Generalize the skill enough that it no longer depends on this repository's business meaning.
+Useful comments explain why a shared contract exists, why a helper replaces
+abstract-base behavior, why a clone leaves a back-reference unset, why a
+selector returns an interface, or why an accessor is the only construction
+path. Do not narrate setters, getters, returns, assignments, or signatures.
 
-That means:
+## Final Check
 
-- remove business-specific names
-- remove repo-specific domain language
-- keep only the structural lesson
-- preserve file and folder shape when that shape is relevant to the pattern
+Before finishing, confirm that the skill:
 
-Do not over-generalize to the point that the useful implementation lessons disappear.
+- is a reusable skeleton derived from a real Go implementation;
+- is minimal without becoming vague;
+- preserves the non-obvious Go lessons;
+- has a narrow, clear trigger;
+- does not overlap with `design-pattern-decision` or the generic `go` skill;
+- does not make repository-adaptation decisions that belong to the caller; and
+- remains understandable to an LLM with no prior repository context.
 
-## File-By-File Skeleton Rules
-
-For each file:
-
-- show the file path as a heading
-- provide a concise code block
-- keep names meaningful
-- use placeholders only where reuse benefits from them
-- prefer short local variables when they make the pattern roles easier to follow for another LLM, instead of inlining everything into one call
-
-When adding comments inside code examples, prefer this order:
-
-1. shared contract comments
-2. comments that explain a structural role inside the pattern
-3. comments that preserve a non-obvious Go adaptation
-
-Avoid comments that merely restate what a setter, getter, return, or simple assignment already says.
-
-If multiple files follow the same pattern, show one representative template and then explain briefly that the same shape should be repeated with the corresponding placeholder replacements.
-
-## Naming Rules
-
-Prefer stable, general names taken from the pattern itself, for example:
-
-- `family`
-- `product`
-- `factory`
-- `type`
-- `creator`
-- `component`
-- `adapter`
-
-Only use more specific names if the repository pattern clearly teaches a better generic abstraction.
-
-## Non-Obvious Go Notes Rules
-
-This section is important.
-
-Only include insights that another LLM could miss if it only knew the textbook pattern, for example:
-
-- where to place shared type identifiers to avoid circular dependencies
-- how to represent behavior that would live in an abstract base class in another language
-- when a stateless concrete type can stay as a zero-value struct returned by value
-- why a selector returns an interface instead of a concrete type
-- why a client-owned port and client package stay separate from adapters
-- why embedding or composition carries the shared side of a bridge instead of an abstract base class
-- why a dependent optional part is constructed in the recipe or caller before entering a builder chain
-- why one package owns both a shared type and the common contract
-
-Do not fill this section with textbook definitions.
-
-## Commenting Rules
-
-Comments in the code skeleton should explain pattern role, ownership, or a Go-specific adaptation.
-
-Good kinds of comments:
-
-- why a shared contract exists
-- why a helper stands in for an abstract base class behavior from another language
-- why a child clone leaves a back-reference unset
-- why an accessor is the only public construction path
-- why a selector returns an interface
-
-Avoid comments like:
-
-- "SetPartA sets PartA"
-- "Clone clones the item"
-- "Return the instance"
-- "Build returns the product"
-
-If a section such as `Adaptation Notes` exists, use it only when it adds something that would otherwise duplicate neither `Non-Obvious Go Notes` nor the code comments. Prefer not to create that extra section by default.
-
-## Quality Bar
-
-The new draft should feel like:
-
-- a reusable pattern skeleton
-- derived from a real Go implementation
-- minimal but not vague
-- specific but not repo-bound
-
-## Final Self-Check
-
-Before finishing, verify all of this:
-
-- the skill does not overlap with `design-pattern-decision`
-- the skill does not overlap with the generic `go` skill more than necessary
-- the skill is not making pattern-selection decisions
-- the skill is not making repo-adaptation decisions that belong to the caller
-- the skill preserves the non-obvious lessons from the repository implementation
-- the skill stays readable for an LLM with zero prior context
-- the skill is concise
+Run the available lightweight skill validator when it applies.
 
 ## Copyable Prompt Template
 
-Use this prompt with the placeholders filled in:
-
 ```text
-Based on the guidelines in <path-to-guideline-file>, create a new Go design-pattern skill draft.
+Based on <path-to-guideline-file>, create a Go design-pattern skill from the
+reference implementation below.
 
-Read these reference skills first so the new draft matches their style and level of abstraction:
-- <path-to-existing-go-pattern-skill-1>
-- <path-to-existing-go-pattern-skill-2>
-
-Then inspect this repository pattern implementation:
+Inputs:
 - Repository root: <path-to-this-repo>
 - Pattern family: <creational|structural|behavioral>
 - Pattern name: <pattern-name>
-- Reference implementation path: <path-to-pattern-implementation-in-this-repo>
+- Reference implementation: <path-to-pattern-implementation-in-this-repo>
+- Output draft path: <path-where-the-new-draft-should-be-created>
 
-Create the draft at:
-- <path-where-the-new-draft-should-be-created>
+Read the guideline and the target implementation. Read a supplied reference
+skill only if it clarifies the target's structure.
 
-Requirements:
-- The result must be a lightweight Go pattern skeleton, not a router, decision tree, validation guide, or repo-specific manual.
-- The result must be primarily usable by the `go` skill after `design-pattern-decision` selects this pattern, but it must also remain usable if the user explicitly asks for this pattern in Go.
-- Do not duplicate generic Go testing, validation, formatting, linting, or architecture rules that belong to the `go` skill.
-- Preserve the non-obvious Go adaptations from the repository implementation.
-- Keep the result compact.
-- Keep the output structure as:
-  1. YAML frontmatter
-  2. Title
-  3. Purpose
-  4. Non-Obvious Go Notes
-  5. Folder Shape
-  6. File-By-File Skeleton
-- Use readable placeholders where reuse benefits from them.
-- Keep comments only when they explain pattern role, ownership, or a non-obvious Go adaptation.
-- Prefer to place the important explanatory comments next to the relevant skeleton code instead of relying on a trailing `Adaptation Notes` section.
+Create a reusable Go pattern skeleton, primarily usable after
+`design-pattern-decision` selects this pattern and also for direct requests to
+implement, scaffold, or inspect it. Keep the frontmatter description short and
+specific to that trigger. Keep SKILL.md compact; put a file-by-file skeleton in
+references only when progressive disclosure makes it easier to use.
 
-Before finishing, self-check for overlap with `design-pattern-decision` and the generic `go` skill.
+Preserve only non-obvious Go adaptations from the implementation: package and
+interface boundaries, selectors, common identifiers, shared behavior or state,
+zero-value types, and constraints that keep variants interchangeable. Generalize
+away repository business names and incidental demo mechanics. Do not invent
+unsupported structure or duplicate the generic `go` and
+`design-pattern-decision` responsibilities.
+
+Use comments only for rationale, ownership, caller consequences, or a Go
+adaptation that code cannot express. Do not comment obvious code.
+
+Before finishing, check that the result is concise, reusable, clear to an LLM
+with zero context, and does not overlap with the `go` or
+`design-pattern-decision` skills.
 ```
