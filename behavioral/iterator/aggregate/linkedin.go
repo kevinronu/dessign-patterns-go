@@ -15,6 +15,7 @@ func NewLinkedIn(contacts []item.Profile) *LinkedIn {
 }
 
 func (l *LinkedIn) requestProfile(email string) *item.Profile {
+	// Use the index because range values are copies of slice elements.
 	for index := range l.contacts {
 		if l.contacts[index].Email == email {
 			return &l.contacts[index]
@@ -44,14 +45,9 @@ func (l *LinkedIn) CoworkersFor(profileEmail string) iter.Seq[*item.Profile] {
 func (l *LinkedIn) profileSeqFor(email string, contactType item.ContactType) iter.Seq[*item.Profile] {
 	return func(yield func(*item.Profile) bool) {
 		contactEmails := l.requestProfileContactEmails(email, contactType)
-		cachedProfiles := make([]*item.Profile, len(contactEmails))
 
-		for position, contactEmail := range contactEmails {
-			contact := cachedProfiles[position]
-			if contact == nil {
-				contact = l.requestProfile(contactEmail)
-				cachedProfiles[position] = contact
-			}
+		for _, contactEmail := range contactEmails {
+			contact := l.requestProfile(contactEmail)
 
 			keepGoing := yield(contact)
 			if !keepGoing {
