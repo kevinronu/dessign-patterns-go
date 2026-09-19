@@ -55,6 +55,8 @@ Extract the decisions that affect how the pattern is expressed in Go:
 - embedding or composition that carries shared state or behavior;
 - a helper that substitutes for behavior inherited from an abstract base class;
 - zero-value concrete types that need no construction or dependency wiring;
+- standard-library features that replace textbook pattern participants when
+  they are inherent to the implementation;
 - import aliases that materially improve clarity;
 - pointer versus value use when it is inherent to the pattern; and
 - constraints that keep concrete variants interchangeable.
@@ -71,6 +73,11 @@ make the entrypoint harder to scan; otherwise keep a small self-contained
 skill. Do not add resource folders, scripts, templates, or examples without a
 recurring concrete use.
 
+Create `agents/openai.yaml` to match the existing Go pattern skills. Give it a
+clear display name, short description, and default prompt for the new skill.
+Keep `allow_implicit_invocation: false` unless the caller explicitly chooses a
+different invocation policy.
+
 ### Frontmatter description
 
 Use the final skill name in lowercase hyphen-case. Write a short,
@@ -85,14 +92,16 @@ skill.
 Keep the entrypoint focused on the pattern skeleton. It should contain:
 
 1. a clear title and short purpose;
-2. `Non-Obvious Go Notes` with only the decisions a textbook description would
-   not reveal; and
-3. a contextual link to the folder shape and skeleton when that reference
+2. only the non-obvious Go notes that need to be visible immediately; and
+3. a contextual link to the folder shape, implementation notes, and skeleton
+   when that reference
    exists.
 
-The usual output shape is therefore YAML frontmatter, title, purpose,
-non-obvious Go notes, and a skeleton reference. It is not a reason to force a
-fixed section or extra file when the pattern is genuinely simpler.
+When a skeleton reference exists, keep its file-by-file notes and non-obvious
+Go adaptations there unless the entrypoint needs them to establish scope. The
+usual output shape is therefore YAML frontmatter, title, purpose, and a
+skeleton reference; it is not a reason to force a fixed section or extra file
+when the pattern is genuinely simpler.
 
 Do not repeat generic Go testing, formatting, linting, validation-scope,
 architecture, or error-handling rules. The `go` skill owns them.
@@ -152,6 +161,8 @@ Before finishing, confirm that the skill:
 - is minimal without becoming vague;
 - preserves the non-obvious Go lessons;
 - has a narrow, clear trigger;
+- includes `agents/openai.yaml` consistent with the existing Go pattern
+  skills;
 - does not overlap with `design-pattern-decision` or the generic `go` skill;
 - does not make repository-adaptation decisions that belong to the caller; and
 - remains understandable to an LLM with no prior repository context.
@@ -182,10 +193,15 @@ references only when progressive disclosure makes it easier to use.
 
 Preserve only non-obvious Go adaptations from the implementation: package and
 interface boundaries, selectors, common identifiers, shared behavior or state,
-zero-value types, and constraints that keep variants interchangeable. Generalize
-away repository business names and incidental demo mechanics. Do not invent
-unsupported structure or duplicate the generic `go` and
+zero-value types, standard-library features that replace textbook participants,
+and constraints that keep variants interchangeable. Generalize away repository
+business names and incidental demo mechanics. Do not invent unsupported
+structure or duplicate the generic `go` and
 `design-pattern-decision` responsibilities.
+
+Create `agents/openai.yaml` with a clear display name, short description,
+default prompt, and `allow_implicit_invocation: false`, matching the existing
+Go pattern skills.
 
 Use comments only for rationale, ownership, caller consequences, or a Go
 adaptation that code cannot express. Do not comment obvious code.
