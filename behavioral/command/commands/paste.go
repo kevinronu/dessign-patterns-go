@@ -2,7 +2,6 @@ package commands
 
 import "github.com/kevinronu/dessign-patterns-go/behavioral/command/editor"
 
-// Paste inserts the editor clipboard at its caret and keeps its prior text for Undo.
 type Paste struct {
 	commandState
 }

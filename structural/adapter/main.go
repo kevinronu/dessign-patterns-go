@@ -11,7 +11,6 @@ import (
 )
 
 func main() {
-	// A backend that already fits the target is used directly.
 	nativePayment := client.PaymentService{Processor: native.Service{}}
 
 	receipt, err := nativePayment.Buy(1999)
@@ -21,7 +20,6 @@ func main() {
 
 	fmt.Println("no adapter: ", receipt)
 
-	// A backend whose API does not match the target needs an adapter.
 	legacyPayment := client.PaymentService{Processor: adapter.LegacyAdapter{Adaptee: adaptee.LegacyService{}}}
 
 	receipt, err = legacyPayment.Buy(2500)

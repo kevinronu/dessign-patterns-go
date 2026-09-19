@@ -9,10 +9,6 @@ import (
 	"github.com/kevinronu/dessign-patterns-go/structural/proxy/service"
 )
 
-// timeDownload prints what a call cost, because the cost shows who answered: 0ms is the proxy,
-// anything slower is the service.
-//
-// It takes the contract, so it runs the same against the real service and against the proxy.
 func timeDownload(library service.VideoLibrary, id string) {
 	start := time.Now()
 

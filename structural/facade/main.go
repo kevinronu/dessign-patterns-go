@@ -11,8 +11,6 @@ import (
 func main() {
 	source := subsystem.MediaFile{Name: "demo-video.ogg", Bytes: 614400}
 
-	// Every call the subsystem needs, in the order it needs them. None of this is closed to a
-	// client: a facade is a shortcut, not a wall.
 	sourceCodec, err := subsystem.CodecFor(source.Format())
 	if err != nil {
 		log.Fatalf("source codec: %v", err)
@@ -40,7 +38,6 @@ func main() {
 	fmt.Printf("  encode with %-3s  %7d B -> %7d B\n", targetCodec.Format, clean.Bytes, byHand.Bytes)
 	fmt.Printf("  result           %s\n", byHand.Name)
 
-	// The same five calls behind one method, reaching the same bytes.
 	var converter facade.MediaConverter
 
 	result, err := converter.Convert(source, "mp4")
@@ -50,8 +47,6 @@ func main() {
 
 	fmt.Printf("\nthrough the facade\n  Convert          %s -> %s %d B\n", source.Name, result.Name, result.Bytes)
 
-	// Check shares the codec lookups with Convert and stops there, so a batch can be filtered
-	// before any decoding starts. A facade hides the steps, not the failures.
 	fmt.Printf("\ncan convert to mp4\n")
 
 	for _, name := range []string{"demo-video.ogg", "song.mp4", "clip.avi"} {

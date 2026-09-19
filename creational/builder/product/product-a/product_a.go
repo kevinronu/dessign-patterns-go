@@ -10,7 +10,6 @@ import (
 	"github.com/kevinronu/dessign-patterns-go/creational/builder/product"
 )
 
-// ProductA is a product rendered as a single line.
 type ProductA struct {
 	PartA *parta.PartA
 	PartB *partb.PartB
@@ -19,7 +18,6 @@ type ProductA struct {
 
 var _ product.Product = ProductA{}
 
-// Describe renders the product as a single line.
 func (p ProductA) Describe() string {
 	var b strings.Builder
 

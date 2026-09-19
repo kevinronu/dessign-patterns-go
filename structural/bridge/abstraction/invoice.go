@@ -1,6 +1,5 @@
 package abstraction
 
-// Invoice is a refined abstraction: it owns the content, and any Exporter can render it.
 type Invoice struct {
 	Document
 	Number   string

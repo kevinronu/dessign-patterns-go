@@ -9,9 +9,6 @@ import (
 	"github.com/kevinronu/dessign-patterns-go/creational/builder/product"
 )
 
-// Builder assembles a product through chainable steps. Each setter returns the
-// Builder so calls can be chained; Build completes assembly and returns the
-// common Product, so concrete builders are interchangeable.
 type Builder interface {
 	Reset() Builder
 	SetPartA(partA parta.PartA) Builder
@@ -20,17 +17,13 @@ type Builder interface {
 	Build() (product.Product, error)
 }
 
-// BuilderType selects a concrete builder.
 type BuilderType string
 
 const (
-	// TypeA builds a ProductA.
 	TypeA BuilderType = "A"
-	// TypeB builds a ProductB.
 	TypeB BuilderType = "B"
 )
 
-// GetBuilder returns the concrete builder for the given type.
 func GetBuilder(builderType BuilderType) (Builder, error) {
 	switch builderType {
 	case TypeA:
@@ -42,7 +35,6 @@ func GetBuilder(builderType BuilderType) (Builder, error) {
 	}
 }
 
-// ValidateParts checks that every required part is set. PartC is optional.
 func ValidateParts(partA *parta.PartA, partB *partb.PartB) error {
 	if partA == nil {
 		return fmt.Errorf("missing required part: PartA")

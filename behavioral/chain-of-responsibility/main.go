@@ -19,15 +19,12 @@ func main() {
 	srv.RegisterAdmin("admin@example.com", "admin_pass")
 	srv.Register("user@example.com", "user_pass")
 
-	// The head goes on its own line: SetNext returns the next step, not the head of the chain.
 	middleware := concrete.NewRateLimit(limit, window)
 
-	// The order is decided here. Over the limit, nothing behind the rate limit runs.
 	middleware.SetNext(concrete.NewAuth(srv)).SetNext(concrete.NewAdminOnly(srv))
 
 	srv.SetMiddleware(middleware)
 
-	// One request per reason a step can refuse, plus two that reach the server.
 	requests := []handler.Request{
 		{Email: "admin@example.com", Password: "admin_pass", Path: "/admin/settings"},
 		{Email: "user@example.com", Password: "user_pass", Path: "/reports"},
@@ -39,7 +36,6 @@ func main() {
 
 	fmt.Printf("chain: rate limit (%d per %v) -> auth -> admin only\n\n", limit, window)
 
-	// The client never touches the chain. It learns what came back, and which step refused.
 	for _, req := range requests {
 		page, err := srv.Serve(req)
 		if err != nil {

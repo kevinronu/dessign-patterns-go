@@ -1,6 +1,5 @@
 package abstraction
 
-// Report shows what the split buys: a second document type needs no change to any Exporter.
 type Report struct {
 	Document
 	Title   string

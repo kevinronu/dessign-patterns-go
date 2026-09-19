@@ -18,7 +18,6 @@ func main() {
 		log.Fatalf("get builder B: %v", err)
 	}
 
-	// One recipe driving BuilderA.
 	director := builder.NewDirector(builderA)
 
 	productA, err := director.BuildVariantOne()
@@ -28,7 +27,6 @@ func main() {
 
 	fmt.Println(productA.Describe())
 
-	// Same Director, different builder: builders are interchangeable.
 	director.SetBuilder(builderB)
 
 	manual, err := director.BuildVariantTwo()

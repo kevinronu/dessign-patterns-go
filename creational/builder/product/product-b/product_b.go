@@ -10,7 +10,6 @@ import (
 	"github.com/kevinronu/dessign-patterns-go/creational/builder/product"
 )
 
-// ProductB is a product rendered as a multi-line manual.
 type ProductB struct {
 	PartA *parta.PartA
 	PartB *partb.PartB
@@ -19,7 +18,6 @@ type ProductB struct {
 
 var _ product.Product = ProductB{}
 
-// Describe renders the product as a multi-line manual.
 func (p ProductB) Describe() string {
 	var b strings.Builder
 

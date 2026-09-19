@@ -8,8 +8,6 @@ import (
 	"github.com/kevinronu/dessign-patterns-go/behavioral/chain-of-responsibility/server"
 )
 
-// AdminOnly guards the paths under /admin and lets every other request through. It runs after
-// Auth, because a role only matters once we know who is calling.
 type AdminOnly struct {
 	handler.Successor
 

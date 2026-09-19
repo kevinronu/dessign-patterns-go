@@ -1,12 +1,9 @@
 package subsystem
 
-// Raw is decoded audio. It is a separate type so the two steps cannot be called in the wrong
-// order: nothing else in the subsystem accepts or returns it.
 type Raw struct {
 	Bytes int64
 }
 
-// Transcoder holds no state, so the facade can keep it as a zero value.
 type Transcoder struct{}
 
 func (Transcoder) Decode(file MediaFile, codec Codec) Raw {

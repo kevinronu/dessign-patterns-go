@@ -31,7 +31,6 @@ func main() {
 		"project/docs/missing.txt",
 	}
 
-	// Find returns the contract, so a file and a folder are read the same way.
 	for _, path := range paths {
 		found, ok := root.Find(path)
 		if !ok {
@@ -42,7 +41,6 @@ func main() {
 		fmt.Printf("%-26s %-12s %6d B\n", path, found.Name(), found.Size())
 	}
 
-	// The change shows up in root because docs and root's child are the same *Folder.
 	if err := docs.Remove("report.pdf"); err != nil {
 		log.Fatalf("remove report.pdf: %v", err)
 	}

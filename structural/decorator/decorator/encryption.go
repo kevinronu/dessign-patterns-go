@@ -9,14 +9,12 @@ import (
 	"github.com/kevinronu/dessign-patterns-go/structural/decorator/component"
 )
 
-// Encryption stores a cipher.AEAD instead of the key, so the key is checked once and then
-// dropped.
 type Encryption struct {
 	wrappee component.DataSource
 	aead    cipher.AEAD
 }
 
-// NewEncryption returns an error because the key must be 16, 24 or 32 bytes.
+// NewEncryption returns a decorator that stores authenticated ciphertext. key must be a valid AES key.
 func NewEncryption(wrappee component.DataSource, key []byte) (Encryption, error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
@@ -37,8 +35,6 @@ func (e Encryption) Write(data []byte) error {
 		return fmt.Errorf("read nonce: %w", err)
 	}
 
-	// Seal adds the result to its first argument, so passing nonce puts the nonce in front. Read
-	// needs that same nonce, and the store keeps only one value.
 	return e.wrappee.Write(e.aead.Seal(nonce, nonce, data, nil))
 }
 

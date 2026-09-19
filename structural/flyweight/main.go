@@ -9,8 +9,6 @@ import (
 	"github.com/kevinronu/dessign-patterns-go/structural/flyweight/flyweight"
 )
 
-// fatTree is a tree without the pattern: every one carries its own copy of the state that never
-// changes.
 type fatTree struct {
 	x       int
 	y       int
@@ -19,7 +17,6 @@ type fatTree struct {
 	texture string
 }
 
-// describe shows what a fatTree holds: the same three values that every oak repeats.
 func (t fatTree) describe() string {
 	return fmt.Sprintf("%s/%s/%s at (%d,%d)", t.name, t.color, t.texture, t.x, t.y)
 }
@@ -32,8 +29,6 @@ func main() {
 	oak := factory.Get("oak", "green", "rough")
 	maple := factory.Get("maple", "orange", "smooth")
 
-	// The same key always gives back the same pointer, so every oak in the forest shares one
-	// TreeType.
 	fmt.Printf("same pointer for the same key: %t\n\n", oak == factory.Get("oak", "green", "rough"))
 
 	forest := make([]extrinsic.Tree, 0, trees)
@@ -47,15 +42,12 @@ func main() {
 		forest = append(forest, extrinsic.Tree{X: i % 500, Y: i / 500, Type: kind})
 	}
 
-	// Only the first few, because a million lines is not a demo.
 	for _, tree := range forest[:3] {
 		fmt.Println(tree.Draw())
 	}
 
 	fmt.Println("...")
 
-	// A string header is two words, a pointer to the bytes and a length. The three of them are what
-	// make a fatTree 40 B heavier than a Tree.
 	fat := fatTree{x: 0, y: 0, name: "oak", color: "green", texture: "rough"}
 
 	fmt.Printf("\nthe first tree without the pattern: %s\n", fat.describe())

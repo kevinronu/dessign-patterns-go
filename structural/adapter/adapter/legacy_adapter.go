@@ -1,4 +1,3 @@
-// Package adapter connects an adaptee to the target. One adapter per backend that does not fit.
 package adapter
 
 import (
@@ -12,7 +11,6 @@ type LegacyAdapter struct {
 	Adaptee adaptee.LegacyService
 }
 
-// Pay translates the call and the result between the target and the adaptee's own API.
 func (a LegacyAdapter) Pay(amountCents int) (string, error) {
 	dollars := float64(amountCents) / 100
 

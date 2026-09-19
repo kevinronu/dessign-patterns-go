@@ -1,4 +1,3 @@
-// Package native holds a backend that already fits the target, so it needs no adapter.
 package native
 
 import "fmt"

@@ -1,11 +1,9 @@
-// Package commands provides editor operations as values that can be passed, queued, and invoked.
 package commands
 
 import (
 	"github.com/kevinronu/dessign-patterns-go/behavioral/command/editor"
 )
 
-// Copy copies the editor selection to its clipboard.
 type Copy struct {
 	commandState
 }

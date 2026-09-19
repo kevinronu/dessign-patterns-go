@@ -1,13 +1,11 @@
 package model
 
-// Container is a prototype that owns a list of Entries.
 type Container struct {
 	Name    string
 	Entries []Entry
 }
 
-// Clone returns a deep copy: every Entry is cloned and its back-reference is
-// re-pointed to the new Container, so no entry still points at the original.
+// Clone returns a deep copy whose entries refer to the clone, not the original container.
 func (c *Container) Clone() *Container {
 	clone := &Container{Name: c.Name + "_clone"}
 
